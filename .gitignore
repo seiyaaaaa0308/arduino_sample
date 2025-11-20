@@ -1,0 +1,4 @@
+/myenv
+/doc
+*.pyc
+/__pycache__
