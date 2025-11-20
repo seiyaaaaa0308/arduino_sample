@@ -10,6 +10,12 @@ void LedController::begin() {
     pinMode(redPin, OUTPUT);
     pinMode(yellowPin, OUTPUT);
     turnOffAll();
+    Serial.print("[DEBUG] LedController initialized: GREEN=");
+    Serial.print(greenPin);
+    Serial.print(", RED=");
+    Serial.print(redPin);
+    Serial.print(", YELLOW=");
+    Serial.println(yellowPin);
 }
 
 void LedController::setMonitoringActive(bool active) {
@@ -17,6 +23,7 @@ void LedController::setMonitoringActive(bool active) {
 }
 
 void LedController::setWarningLevel(WarningLevel level, long distance, long range) {
+    WarningLevel previousLevel = currentLevel;
     currentLevel = level;
     
     // 距離に応じたレベル判定
@@ -28,6 +35,20 @@ void LedController::setWarningLevel(WarningLevel level, long distance, long rang
         currentLevel = FAST_BLINK; // 中距離: 高速点滅
     } else {
         currentLevel = SLOW_BLINK; // 遠距離: 低速点滅
+    }
+    
+    // レベル変化時のみログ出力
+    if (previousLevel != currentLevel) {
+        Serial.print("[DEBUG] Warning level changed: ");
+        const char* levelNames[] = {"OFF", "SLOW_BLINK", "FAST_BLINK", "SOLID"};
+        Serial.print(levelNames[previousLevel]);
+        Serial.print(" -> ");
+        Serial.print(levelNames[currentLevel]);
+        Serial.print(" (distance=");
+        Serial.print(distance);
+        Serial.print(" cm, range=");
+        Serial.print(range);
+        Serial.println(" cm)");
     }
 }
 

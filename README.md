@@ -399,7 +399,30 @@ FAULT: Both sensors failed!
 4. 物体を近づけると赤LEDが点滅/点灯
 5. トグルボタンを再度押す → 監視停止（全LED消灯）
 
-### 9.3 動作確認項目
+### 9.3 ログ記録（オプション）
+
+シリアル出力を日時付きでファイルに保存できます。
+
+#### 必要なライブラリ
+```bash
+pip install pyserial
+```
+
+#### ログ記録の開始
+```bash
+# Windows
+start_logger.bat
+
+# または
+python serial_logger.py
+```
+
+#### ログファイル
+- 保存先: `logs/arduino_log_YYYYMMDD_HHMMSS.txt`
+- 形式: 日時付きテキスト形式
+- 詳細: `SERIAL_LOGGER_README.md` を参照
+
+### 9.4 動作確認項目
 - [ ] 緑LED: ボタン押下で点灯/消灯
 - [ ] 赤LED: 距離に応じて消灯→低速点滅→高速点滅→点灯
 - [ ] 黄LED: センサ故障時に点滅

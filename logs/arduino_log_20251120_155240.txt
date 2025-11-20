@@ -1,0 +1,200 @@
+Arduino Serial Log - Started at 2025-11-20 15:52:40
+============================================================
+[2025-11-20 15:52:40.703] =================================
+[2025-11-20 15:52:40.715] Collision Warning System v2.0
+[2025-11-20 15:52:40.726] Initializing components...
+[2025-11-20 15:52:40.738] =================================
+[2025-11-20 15:52:40.749] [DEBUG] DistanceSensor initialized: TRIG=8, ECHO=9
+[2025-11-20 15:52:40.761] [DEBUG] DistanceSensor initialized: TRIG=4, ECHO=5
+[2025-11-20 15:52:40.772] [DEBUG] LedController initialized: GREEN=11, RED=10, YELLOW=6
+[2025-11-20 15:52:40.789] [INFO] All components initialized
+[2025-11-20 15:52:40.800] [INFO] Dual Sensor Configuration
+[2025-11-20 15:52:40.812] [INFO] Press button to toggle monitoring
+[2025-11-20 15:52:40.824] =================================
+[2025-11-20 15:54:03.285] [DEBUG] Button toggled: ON
+[2025-11-20 15:54:03.322] =================================
+[2025-11-20 15:54:03.347] >>> System STARTED <<<
+[2025-11-20 15:54:03.375] [INFO] Monitoring active
+[2025-11-20 15:54:03.408] [INFO] Green LED should be ON
+[2025-11-20 15:54:03.445] =================================
+[2025-11-20 15:54:03.519] [DEBUG] Monitoring range adjusted: 0 cm -> 171 cm (volume value=538)
+[2025-11-20 15:54:03.576] [DEBUG] Sensor TRIG=8 error: distance=0 cm, errorCount=1
+[2025-11-20 15:54:03.658] [DEBUG] Warning level changed: OFF -> SOLID (distance=14 cm, range=171 cm)
+[2025-11-20 15:54:03.728] [DATA] Range: 171 cm | S1: ERR | S2: 14 cm | Min: 14 cm [WARNING]
+[2025-11-20 15:54:03.842] [DEBUG] Sensor TRIG=8 error: distance=0 cm, errorCount=2
+[2025-11-20 15:54:03.912] [DATA] Range: 171 cm | S1: ERR | S2: 15 cm | Min: 15 cm [WARNING]
+[2025-11-20 15:54:04.014] [DEBUG] Sensor TRIG=8 recovered, errorCount reset
+[2025-11-20 15:54:04.088] [DATA] Range: 171 cm | S1: 127 cm | S2: 15 cm | Min: 15 cm [WARNING]
+[2025-11-20 15:54:04.215] [DATA] Range: 171 cm | S1: 111 cm | S2: 15 cm | Min: 15 cm [WARNING]
+[2025-11-20 15:54:04.338] [DATA] Range: 171 cm | S1: 113 cm | S2: 15 cm | Min: 15 cm [WARNING]
+[2025-11-20 15:54:04.457] [DATA] Range: 171 cm | S1: 113 cm | S2: 15 cm | Min: 15 cm [WARNING]
+[2025-11-20 15:54:04.575] [DATA] Range: 171 cm | S1: 112 cm | S2: 15 cm | Min: 15 cm [WARNING]
+[2025-11-20 15:54:04.698] [DATA] Range: 172 cm | S1: 114 cm | S2: 15 cm | Min: 15 cm [WARNING]
+[2025-11-20 15:54:04.817] [DATA] Range: 172 cm | S1: 115 cm | S2: 15 cm | Min: 15 cm [WARNING]
+[2025-11-20 15:54:04.936] [DATA] Range: 171 cm | S1: 116 cm | S2: 15 cm | Min: 15 cm [WARNING]
+[2025-11-20 15:54:05.054] [DATA] Range: 171 cm | S1: 118 cm | S2: 15 cm | Min: 15 cm [WARNING]
+[2025-11-20 15:54:05.177] [DATA] Range: 171 cm | S1: 116 cm | S2: 15 cm | Min: 15 cm [WARNING]
+[2025-11-20 15:54:05.296] [DATA] Range: 171 cm | S1: 118 cm | S2: 15 cm | Min: 15 cm [WARNING]
+[2025-11-20 15:54:05.415] [DATA] Range: 171 cm | S1: 116 cm | S2: 15 cm | Min: 15 cm [WARNING]
+[2025-11-20 15:54:05.538] [DATA] Range: 171 cm | S1: 117 cm | S2: 15 cm | Min: 15 cm [WARNING]
+[2025-11-20 15:54:05.657] [DATA] Range: 171 cm | S1: 116 cm | S2: 15 cm | Min: 15 cm [WARNING]
+[2025-11-20 15:54:05.775] [DATA] Range: 171 cm | S1: 112 cm | S2: 15 cm | Min: 15 cm [WARNING]
+[2025-11-20 15:54:05.894] [DATA] Range: 171 cm | S1: 98 cm | S2: 15 cm | Min: 15 cm [WARNING]
+[2025-11-20 15:54:06.013] [DATA] Range: 171 cm | S1: 84 cm | S2: 15 cm | Min: 15 cm [WARNING]
+[2025-11-20 15:54:06.136] [DATA] Range: 171 cm | S1: 62 cm | S2: 15 cm | Min: 15 cm [WARNING]
+[2025-11-20 15:54:06.251] [DEBUG] Sensor TRIG=8 error: distance=0 cm, errorCount=1
+[2025-11-20 15:54:06.320] [DATA] Range: 171 cm | S1: ERR | S2: 15 cm | Min: 15 cm [WARNING]
+[2025-11-20 15:54:06.415] [DEBUG] Sensor TRIG=8 recovered, errorCount reset
+[2025-11-20 15:54:06.488] [DATA] Range: 171 cm | S1: 130 cm | S2: 15 cm | Min: 15 cm [WARNING]
+[2025-11-20 15:54:06.603] [DEBUG] Sensor TRIG=8 error: distance=0 cm, errorCount=1
+[2025-11-20 15:54:06.672] [DATA] Range: 171 cm | S1: ERR | S2: 15 cm | Min: 15 cm [WARNING]
+[2025-11-20 15:54:06.783] [DEBUG] Sensor TRIG=8 error: distance=0 cm, errorCount=2
+[2025-11-20 15:54:06.853] [DATA] Range: 171 cm | S1: ERR | S2: 15 cm | Min: 15 cm [WARNING]
+[2025-11-20 15:54:06.967] [DEBUG] Sensor TRIG=8 error: distance=0 cm, errorCount=3
+[2025-11-20 15:54:07.037] [DATA] Range: 171 cm | S1: ERR | S2: 15 cm | Min: 15 cm [WARNING]
+[2025-11-20 15:54:07.152] [DEBUG] Sensor TRIG=8 error: distance=0 cm, errorCount=4
+[2025-11-20 15:54:07.221] [DATA] Range: 171 cm | S1: ERR | S2: 15 cm | Min: 15 cm [WARNING]
+[2025-11-20 15:54:07.312] [DEBUG] Sensor TRIG=8 recovered, errorCount reset
+[2025-11-20 15:54:07.385] [DATA] Range: 171 cm | S1: 97 cm | S2: 15 cm | Min: 15 cm [WARNING]
+[2025-11-20 15:54:07.500] [DEBUG] Sensor TRIG=8 error: distance=0 cm, errorCount=1
+[2025-11-20 15:54:07.569] [DATA] Range: 171 cm | S1: ERR | S2: 15 cm | Min: 15 cm [WARNING]
+[2025-11-20 15:54:07.680] [DEBUG] Sensor TRIG=8 error: distance=0 cm, errorCount=2
+[2025-11-20 15:54:07.750] [DATA] Range: 171 cm | S1: ERR | S2: 15 cm | Min: 15 cm [WARNING]
+[2025-11-20 15:54:07.864] [DEBUG] Sensor TRIG=8 error: distance=0 cm, errorCount=3
+[2025-11-20 15:54:07.934] [DATA] Range: 171 cm | S1: ERR | S2: 15 cm | Min: 15 cm [WARNING]
+[2025-11-20 15:54:08.048] [DEBUG] Sensor TRIG=8 error: distance=0 cm, errorCount=4
+[2025-11-20 15:54:08.118] [DATA] Range: 171 cm | S1: ERR | S2: 15 cm | Min: 15 cm [WARNING]
+[2025-11-20 15:54:08.216] [DEBUG] Sensor TRIG=8 error: distance=1 cm, errorCount=5
+[2025-11-20 15:54:08.286] [DATA] Range: 171 cm | S1: ERR | S2: 15 cm | Min: 15 cm [WARNING]
+[2025-11-20 15:54:08.372] [DEBUG] Sensor TRIG=8 recovered, errorCount reset
+[2025-11-20 15:54:08.446] [DATA] Range: 171 cm | S1: 56 cm | S2: 15 cm | Min: 15 cm [WARNING]
+[2025-11-20 15:54:08.560] [DEBUG] Sensor TRIG=8 error: distance=0 cm, errorCount=1
+[2025-11-20 15:54:08.630] [DATA] Range: 171 cm | S1: ERR | S2: 15 cm | Min: 15 cm [WARNING]
+[2025-11-20 15:54:08.741] [DEBUG] Sensor TRIG=8 error: distance=0 cm, errorCount=2
+[2025-11-20 15:54:08.810] [DATA] Range: 171 cm | S1: ERR | S2: 15 cm | Min: 15 cm [WARNING]
+[2025-11-20 15:54:08.925] [DEBUG] Sensor TRIG=8 error: distance=0 cm, errorCount=3
+[2025-11-20 15:54:08.995] [DATA] Range: 171 cm | S1: ERR | S2: 15 cm | Min: 15 cm [WARNING]
+[2025-11-20 15:54:09.109] [DEBUG] Sensor TRIG=8 error: distance=0 cm, errorCount=4
+[2025-11-20 15:54:09.179] [DATA] Range: 171 cm | S1: ERR | S2: 15 cm | Min: 15 cm [WARNING]
+[2025-11-20 15:54:09.294] [DEBUG] Sensor TRIG=8 error: distance=0 cm, errorCount=5
+[2025-11-20 15:54:09.363] [DATA] Range: 171 cm | S1: ERR | S2: 15 cm | Min: 15 cm [WARNING]
+[2025-11-20 15:54:09.478] [DEBUG] Sensor TRIG=8 error: distance=0 cm, errorCount=6
+[2025-11-20 15:54:09.547] [DATA] Range: 171 cm | S1: ERR | S2: 15 cm | Min: 15 cm [WARNING]
+[2025-11-20 15:54:09.658] [DEBUG] Sensor TRIG=8 error: distance=0 cm, errorCount=7
+[2025-11-20 15:54:09.728] [DATA] Range: 171 cm | S1: ERR | S2: 15 cm | Min: 15 cm [WARNING]
+[2025-11-20 15:54:09.842] [DEBUG] Sensor TRIG=8 error: distance=0 cm, errorCount=8
+[2025-11-20 15:54:09.912] [DATA] Range: 171 cm | S1: ERR | S2: 15 cm | Min: 15 cm [WARNING]
+[2025-11-20 15:54:10.027] [DEBUG] Sensor TRIG=8 error: distance=0 cm, errorCount=9
+[2025-11-20 15:54:10.096] [DATA] Range: 171 cm | S1: ERR | S2: 15 cm | Min: 15 cm [WARNING]
+[2025-11-20 15:54:10.211] [DEBUG] Sensor TRIG=8 error: distance=0 cm, errorCount=10
+[2025-11-20 15:54:10.252] [WARN] Sensor TRIG=8 marked as FAULTY
+[2025-11-20 15:54:10.297] [WARN] Sensor1 faulty, using Sensor2 only
+[2025-11-20 15:54:10.367] [DATA] Range: 171 cm | S1: ERR | S2: 15 cm | Min: 15 cm [WARNING]
+[2025-11-20 15:54:10.481] [DEBUG] Sensor TRIG=8 error: distance=0 cm, errorCount=11
+[2025-11-20 15:54:10.522] [WARN] Sensor TRIG=8 marked as FAULTY
+[2025-11-20 15:54:10.567] [WARN] Sensor1 faulty, using Sensor2 only
+[2025-11-20 15:54:10.637] [DATA] Range: 171 cm | S1: ERR | S2: 15 cm | Min: 15 cm [WARNING]
+[2025-11-20 15:54:10.752] [DEBUG] Sensor TRIG=8 error: distance=0 cm, errorCount=12
+[2025-11-20 15:54:10.789] [WARN] Sensor TRIG=8 marked as FAULTY
+[2025-11-20 15:54:10.834] [WARN] Sensor1 faulty, using Sensor2 only
+[2025-11-20 15:54:10.903] [DATA] Range: 171 cm | S1: ERR | S2: 15 cm | Min: 15 cm [WARNING]
+[2025-11-20 15:54:11.018] [DEBUG] Sensor TRIG=8 error: distance=0 cm, errorCount=13
+[2025-11-20 15:54:11.059] [WARN] Sensor TRIG=8 marked as FAULTY
+[2025-11-20 15:54:11.104] [WARN] Sensor1 faulty, using Sensor2 only
+[2025-11-20 15:54:11.173] [DATA] Range: 171 cm | S1: ERR | S2: 15 cm | Min: 15 cm [WARNING]
+[2025-11-20 15:54:11.289] [DEBUG] Sensor TRIG=8 error: distance=0 cm, errorCount=14
+[2025-11-20 15:54:11.329] [WARN] Sensor TRIG=8 marked as FAULTY
+[2025-11-20 15:54:11.375] [WARN] Sensor1 faulty, using Sensor2 only
+[2025-11-20 15:54:11.444] [DATA] Range: 171 cm | S1: ERR | S2: 15 cm | Min: 15 cm [WARNING]
+[2025-11-20 15:54:11.559] [DEBUG] Sensor TRIG=8 error: distance=0 cm, errorCount=15
+[2025-11-20 15:54:11.600] [WARN] Sensor TRIG=8 marked as FAULTY
+[2025-11-20 15:54:11.644] [WARN] Sensor1 faulty, using Sensor2 only
+[2025-11-20 15:54:11.715] [DATA] Range: 171 cm | S1: ERR | S2: 15 cm | Min: 15 cm [WARNING]
+[2025-11-20 15:54:11.829] [DEBUG] Sensor TRIG=8 error: distance=0 cm, errorCount=16
+[2025-11-20 15:54:11.870] [WARN] Sensor TRIG=8 marked as FAULTY
+[2025-11-20 15:54:11.915] [WARN] Sensor1 faulty, using Sensor2 only
+[2025-11-20 15:54:11.984] [DATA] Range: 171 cm | S1: ERR | S2: 15 cm | Min: 15 cm [WARNING]
+[2025-11-20 15:54:12.099] [DEBUG] Sensor TRIG=8 error: distance=0 cm, errorCount=17
+[2025-11-20 15:54:12.140] [WARN] Sensor TRIG=8 marked as FAULTY
+[2025-11-20 15:54:12.185] [WARN] Sensor1 faulty, using Sensor2 only
+[2025-11-20 15:54:12.255] [DATA] Range: 171 cm | S1: ERR | S2: 15 cm | Min: 15 cm [WARNING]
+[2025-11-20 15:54:12.370] [DEBUG] Sensor TRIG=8 error: distance=0 cm, errorCount=18
+[2025-11-20 15:54:12.406] [WARN] Sensor TRIG=8 marked as FAULTY
+[2025-11-20 15:54:12.452] [WARN] Sensor1 faulty, using Sensor2 only
+[2025-11-20 15:54:12.521] [DATA] Range: 171 cm | S1: ERR | S2: 15 cm | Min: 15 cm [WARNING]
+[2025-11-20 15:54:12.636] [DEBUG] Sensor TRIG=8 error: distance=0 cm, errorCount=19
+[2025-11-20 15:54:12.677] [WARN] Sensor TRIG=8 marked as FAULTY
+[2025-11-20 15:54:12.722] [WARN] Sensor1 faulty, using Sensor2 only
+[2025-11-20 15:54:12.791] [DATA] Range: 171 cm | S1: ERR | S2: 15 cm | Min: 15 cm [WARNING]
+[2025-11-20 15:54:12.906] [DEBUG] Sensor TRIG=8 error: distance=0 cm, errorCount=20
+[2025-11-20 15:54:12.947] [WARN] Sensor TRIG=8 marked as FAULTY
+[2025-11-20 15:54:12.992] [WARN] Sensor1 faulty, using Sensor2 only
+[2025-11-20 15:54:13.062] [DATA] Range: 171 cm | S1: ERR | S2: 15 cm | Min: 15 cm [WARNING]
+[2025-11-20 15:54:13.177] [DEBUG] Sensor TRIG=8 error: distance=0 cm, errorCount=21
+[2025-11-20 15:54:13.217] [WARN] Sensor TRIG=8 marked as FAULTY
+[2025-11-20 15:54:13.262] [WARN] Sensor1 faulty, using Sensor2 only
+[2025-11-20 15:54:13.332] [DATA] Range: 171 cm | S1: ERR | S2: 15 cm | Min: 15 cm [WARNING]
+[2025-11-20 15:54:13.447] [DEBUG] Sensor TRIG=8 error: distance=0 cm, errorCount=22
+[2025-11-20 15:54:13.487] [WARN] Sensor TRIG=8 marked as FAULTY
+[2025-11-20 15:54:13.533] [WARN] Sensor1 faulty, using Sensor2 only
+[2025-11-20 15:54:13.602] [DATA] Range: 171 cm | S1: ERR | S2: 15 cm | Min: 15 cm [WARNING]
+[2025-11-20 15:54:13.717] [DEBUG] Sensor TRIG=8 error: distance=0 cm, errorCount=23
+[2025-11-20 15:54:13.758] [WARN] Sensor TRIG=8 marked as FAULTY
+[2025-11-20 15:54:13.803] [WARN] Sensor1 faulty, using Sensor2 only
+[2025-11-20 15:54:13.872] [DATA] Range: 171 cm | S1: ERR | S2: 15 cm | Min: 15 cm [WARNING]
+[2025-11-20 15:54:13.987] [DEBUG] Sensor TRIG=8 error: distance=0 cm, errorCount=24
+[2025-11-20 15:54:14.028] [WARN] Sensor TRIG=8 marked as FAULTY
+[2025-11-20 15:54:14.069] [WARN] Sensor1 faulty, using Sensor2 only
+[2025-11-20 15:54:14.139] [DATA] Range: 171 cm | S1: ERR | S2: 15 cm | Min: 15 cm [WARNING]
+[2025-11-20 15:54:14.253] [DEBUG] Sensor TRIG=8 error: distance=0 cm, errorCount=25
+[2025-11-20 15:54:14.294] [WARN] Sensor TRIG=8 marked as FAULTY
+[2025-11-20 15:54:14.339] [WARN] Sensor1 faulty, using Sensor2 only
+[2025-11-20 15:54:14.410] [DATA] Range: 171 cm | S1: ERR | S2: 15 cm | Min: 15 cm [WARNING]
+[2025-11-20 15:54:14.524] [DEBUG] Sensor TRIG=8 error: distance=0 cm, errorCount=26
+[2025-11-20 15:54:14.565] [WARN] Sensor TRIG=8 marked as FAULTY
+[2025-11-20 15:54:14.610] [WARN] Sensor1 faulty, using Sensor2 only
+[2025-11-20 15:54:14.679] [DATA] Range: 171 cm | S1: ERR | S2: 15 cm | Min: 15 cm [WARNING]
+[2025-11-20 15:54:14.794] [DEBUG] Sensor TRIG=8 error: distance=0 cm, errorCount=27
+[2025-11-20 15:54:14.835] [WARN] Sensor TRIG=8 marked as FAULTY
+[2025-11-20 15:54:14.880] [WARN] Sensor1 faulty, using Sensor2 only
+[2025-11-20 15:54:14.950] [DATA] Range: 171 cm | S1: ERR | S2: 15 cm | Min: 15 cm [WARNING]
+[2025-11-20 15:54:15.064] [DEBUG] Sensor TRIG=8 error: distance=0 cm, errorCount=28
+[2025-11-20 15:54:15.105] [WARN] Sensor TRIG=8 marked as FAULTY
+[2025-11-20 15:54:15.150] [WARN] Sensor1 faulty, using Sensor2 only
+[2025-11-20 15:54:15.220] [DATA] Range: 171 cm | S1: ERR | S2: 15 cm | Min: 15 cm [WARNING]
+[2025-11-20 15:54:15.335] [DEBUG] Sensor TRIG=8 error: distance=0 cm, errorCount=29
+[2025-11-20 15:54:15.376] [WARN] Sensor TRIG=8 marked as FAULTY
+[2025-11-20 15:54:15.421] [WARN] Sensor1 faulty, using Sensor2 only
+[2025-11-20 15:54:15.491] [DATA] Range: 171 cm | S1: ERR | S2: 15 cm | Min: 15 cm [WARNING]
+[2025-11-20 15:54:15.605] [DEBUG] Sensor TRIG=8 error: distance=0 cm, errorCount=30
+[2025-11-20 15:54:15.646] [WARN] Sensor TRIG=8 marked as FAULTY
+[2025-11-20 15:54:15.687] [WARN] Sensor1 faulty, using Sensor2 only
+[2025-11-20 15:54:15.757] [DATA] Range: 171 cm | S1: ERR | S2: 15 cm | Min: 15 cm [WARNING]
+[2025-11-20 15:54:15.872] [DEBUG] Sensor TRIG=8 error: distance=0 cm, errorCount=31
+[2025-11-20 15:54:15.913] [WARN] Sensor TRIG=8 marked as FAULTY
+[2025-11-20 15:54:15.958] [WARN] Sensor1 faulty, using Sensor2 only
+[2025-11-20 15:54:16.027] [DATA] Range: 171 cm | S1: ERR | S2: 15 cm | Min: 15 cm [WARNING]
+[2025-11-20 15:54:16.141] [DEBUG] Sensor TRIG=8 error: distance=0 cm, errorCount=32
+[2025-11-20 15:54:16.182] [WARN] Sensor TRIG=8 marked as FAULTY
+[2025-11-20 15:54:16.228] [WARN] Sensor1 faulty, using Sensor2 only
+[2025-11-20 15:54:16.297] [DATA] Range: 171 cm | S1: ERR | S2: 15 cm | Min: 15 cm [WARNING]
+[2025-11-20 15:54:16.412] [DEBUG] Sensor TRIG=8 error: distance=0 cm, errorCount=33
+[2025-11-20 15:54:16.453] [WARN] Sensor TRIG=8 marked as FAULTY
+[2025-11-20 15:54:16.498] [WARN] Sensor1 faulty, using Sensor2 only
+[2025-11-20 15:54:16.568] [DATA] Range: 171 cm | S1: ERR | S2: 15 cm | Min: 15 cm [WARNING]
+[2025-11-20 15:54:16.683] [DEBUG] Sensor TRIG=8 error: distance=0 cm, errorCount=34
+[2025-11-20 15:54:16.724] [WARN] Sensor TRIG=8 marked as FAULTY
+[2025-11-20 15:54:16.768] [WARN] Sensor1 faulty, using Sensor2 only
+[2025-11-20 15:54:16.838] [DATA] Range: 171 cm | S1: ERR | S2: 15 cm | Min: 15 cm [WARNING]
+[2025-11-20 15:54:16.953] [DEBUG] Sensor TRIG=8 error: distance=0 cm, errorCount=35
+[2025-11-20 15:54:16.993] [WARN] Sensor TRIG=8 marked as FAULTY
+[2025-11-20 15:54:17.038] [WARN] Sensor1 faulty, using Sensor2 only
+[2025-11-20 15:54:17.108] [DATA] Range: 171 cm | S1: ERR | S2: 15 cm | Min: 15 cm [WARNING]
+[2025-11-20 15:54:17.223] [DEBUG] Sensor TRIG=8 error: distance=0 cm, errorCount=36
+[2025-11-20 15:54:17.264] [WARN] Sensor TRIG=8 marked as FAULTY
+[2025-11-20 15:54:17.305] [WARN] Sensor1 faulty, using Sensor2 only
+[2025-11-20 15:54:17.378] [DATA] Range: 171 cm | S1: ERR | S2: 15 cm | Min: 15 cm [WARNING]
+[2025-11-20 15:54:17.493] [DEBUG] Sensor TRIG=8 error: distance=0 cm, errorCount=37
+[2025-11-20 15:54:17.530] [WARN] Sensor TRIG=8 marked as FAULTY
+[2025-11-20 15:54:17.576] [WARN] Sensor1 faulty, using Sensor2 only
+[2025-11-20 15:54:17.645] [DATA] Range: 171 cm | S1: ERR | S2: 17 cm | Min: 17 cm [WARNING]

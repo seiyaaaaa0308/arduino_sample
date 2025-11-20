@@ -8,6 +8,10 @@ DistanceSensor::DistanceSensor(int trig, int echo, long maxDist)
 void DistanceSensor::begin() {
     pinMode(trigPin, OUTPUT);
     pinMode(echoPin, INPUT);
+    Serial.print("[DEBUG] DistanceSensor initialized: TRIG=");
+    Serial.print(trigPin);
+    Serial.print(", ECHO=");
+    Serial.println(echoPin);
 }
 
 long DistanceSensor::getDistance() {
@@ -23,13 +27,27 @@ long DistanceSensor::getDistance() {
     // 外れ値チェック（2cm未満または最大距離超過）
     if (distance < 2 || distance > maxDistance) {
         errorCount++;
+        Serial.print("[DEBUG] Sensor TRIG=");
+        Serial.print(trigPin);
+        Serial.print(" error: distance=");
+        Serial.print(distance);
+        Serial.print(" cm, errorCount=");
+        Serial.println(errorCount);
         if (errorCount >= errorThreshold) {
             faulty = true;
+            Serial.print("[WARN] Sensor TRIG=");
+            Serial.print(trigPin);
+            Serial.println(" marked as FAULTY");
         }
         return -1;
     }
     
     // 正常値取得時はエラーカウントリセット
+    if (errorCount > 0) {
+        Serial.print("[DEBUG] Sensor TRIG=");
+        Serial.print(trigPin);
+        Serial.println(" recovered, errorCount reset");
+    }
     errorCount = 0;
     faulty = false;
     return distance;

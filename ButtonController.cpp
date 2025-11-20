@@ -33,6 +33,8 @@ bool ButtonController::wasToggled() {
     // 立ち上がりエッジ検出（ボタンが離された瞬間）
     if (!pressed && lastPressed) {
         toggleState = !toggleState;
+        Serial.print("[DEBUG] Button toggled: ");
+        Serial.println(toggleState ? "ON" : "OFF");
         lastPressed = pressed;
         return true;
     }
