@@ -1,81 +1,82 @@
 #include "arduino_sample.h"
 
-LedController::LedController(int r, int g, int b) 
-    : redPin(r), greenPin(g), bluePin(b), currentLevel(NONE) {
+LedController::LedController(int green, int red, int yellow) 
+    : greenPin(green), redPin(red), yellowPin(yellow), currentLevel(OFF),
+      lastBlinkTime(0), blinkState(false) {
 }
 
 void LedController::begin() {
-    pinMode(redPin, OUTPUT);
     pinMode(greenPin, OUTPUT);
-    pinMode(bluePin, OUTPUT);
-    turnOff();
+    pinMode(redPin, OUTPUT);
+    pinMode(yellowPin, OUTPUT);
+    turnOffAll();
 }
 
-void LedController::setWarningLevel(WarningLevel level) {
+void LedController::setMonitoringActive(bool active) {
+    digitalWrite(greenPin, active ? HIGH : LOW);
+}
+
+void LedController::setWarningLevel(WarningLevel level, long distance, long range) {
     currentLevel = level;
     
-    switch(level) {
-        case NONE:
-            turnOff();
-            break;
-        case WEAK:  // 緑
-            analogWrite(redPin, 0);
-            analogWrite(greenPin, 255);
-            analogWrite(bluePin, 0);
-            break;
-        case MEDIUM:  // 黄
-            analogWrite(redPin, 255);
-            analogWrite(greenPin, 255);
-            analogWrite(bluePin, 0);
-            break;
-        case STRONG:  // 赤
-            analogWrite(redPin, 255);
-            analogWrite(greenPin, 0);
-            analogWrite(bluePin, 0);
-            break;
+    // 距離に応じたレベル判定
+    if (distance < 0 || distance > range) {
+        currentLevel = OFF;
+    } else if (distance <= range * 0.25) {
+        currentLevel = SOLID;      // 近距離: 常時点灯
+    } else if (distance <= range * 0.5) {
+        currentLevel = FAST_BLINK; // 中距離: 高速点滅
+    } else {
+        currentLevel = SLOW_BLINK; // 遠距離: 低速点滅
     }
 }
 
-void LedController::displayWarning(long distance) {
-    if (distance < 0) {
-        return;
+void LedController::updateBlink() {
+    unsigned long currentTime = millis();
+    unsigned long blinkInterval;
+    
+    switch(currentLevel) {
+        case OFF:
+            digitalWrite(redPin, LOW);
+            return;
+            
+        case SOLID:
+            digitalWrite(redPin, HIGH);
+            return;
+            
+        case FAST_BLINK:
+            blinkInterval = 200;
+            break;
+            
+        case SLOW_BLINK:
+            blinkInterval = 500;
+            break;
+            
+        default:
+            digitalWrite(redPin, LOW);
+            return;
     }
     
-    // 距離に応じた警告レベルの決定
-    // 50cm以内: 強(赤)、50-100cm: 中(黄)、100-200cm: 弱(緑)
-    if (distance <= 50) {
-        setWarningLevel(STRONG);
-    } else if (distance <= 100) {
-        setWarningLevel(MEDIUM);
-    } else if (distance <= 200) {
-        setWarningLevel(WEAK);
-    } else {
-        setWarningLevel(NONE);
+    if (currentTime - lastBlinkTime >= blinkInterval) {
+        blinkState = !blinkState;
+        digitalWrite(redPin, blinkState ? HIGH : LOW);
+        lastBlinkTime = currentTime;
     }
 }
 
 void LedController::displayFault() {
-    // 故障通知: 青色点滅
-    static unsigned long lastBlink = 0;
-    static bool blinkState = false;
-    
-    if (millis() - lastBlink > 500) {
+    // 黄色LED点滅（故障通知）
+    unsigned long currentTime = millis();
+    if (currentTime - lastBlinkTime >= 500) {
         blinkState = !blinkState;
-        lastBlink = millis();
-        
-        if (blinkState) {
-            analogWrite(redPin, 0);
-            analogWrite(greenPin, 0);
-            analogWrite(bluePin, 255);
-        } else {
-            turnOff();
-        }
+        digitalWrite(yellowPin, blinkState ? HIGH : LOW);
+        lastBlinkTime = currentTime;
     }
 }
 
-void LedController::turnOff() {
-    analogWrite(redPin, 0);
-    analogWrite(greenPin, 0);
-    analogWrite(bluePin, 0);
-    currentLevel = NONE;
+void LedController::turnOffAll() {
+    digitalWrite(greenPin, LOW);
+    digitalWrite(redPin, LOW);
+    digitalWrite(yellowPin, LOW);
+    currentLevel = OFF;
 }

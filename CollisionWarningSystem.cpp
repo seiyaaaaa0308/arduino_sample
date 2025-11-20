@@ -1,71 +1,87 @@
 #include "arduino_sample.h"
 
-CollisionWarningSystem::CollisionWarningSystem(DistanceSensor* s, LedController* l, 
-                                              VolumeController* v, ButtonController* start, 
-                                              ButtonController* stop) 
-    : sensor(s), led(l), volume(v), startButton(start), stopButton(stop), 
-      systemRunning(false), monitoringRange(200) {
+CollisionWarningSystem::CollisionWarningSystem(DistanceSensor* s1, DistanceSensor* s2,
+                                              LedController* l, VolumeController* v, 
+                                              ButtonController* toggle) 
+    : sensor1(s1), sensor2(s2), led(l), volume(v), toggleButton(toggle), 
+      systemRunning(false), monitoringRange(150), faultCounter(0), faultThreshold(5) {
 }
 
 void CollisionWarningSystem::begin() {
-    sensor->begin();
+    sensor1->begin();
+    sensor2->begin();
     led->begin();
     volume->begin();
-    startButton->begin();
-    stopButton->begin();
+    toggleButton->begin();
     
+    Serial.println("=================================");
     Serial.println("Collision Warning System Initialized");
+    Serial.println("Dual Sensor Configuration");
+    Serial.println("Press button to toggle monitoring");
+    Serial.println("=================================");
 }
 
 void CollisionWarningSystem::update() {
-    // ボタン処理
-    if (startButton->wasPressed()) {
-        start();
+    // ボタントグル処理
+    if (toggleButton->wasToggled()) {
+        toggleSystem();
     }
     
-    if (stopButton->wasPressed()) {
-        stop();
-    }
-    
+    // システム停止中の処理
     if (!systemRunning) {
-        led->turnOff();
+        led->turnOffAll();
         return;
     }
     
-    // ボリューム値取得（監視範囲パラメータ）
+    // 監視中は緑LED点灯
+    led->setMonitoringActive(true);
+    
+    // ボリューム値取得（監視範囲: 30-300cm）
     monitoringRange = volume->getMonitoringRange();
     
-    // センサ値取得
-    long distance = sensor->getDistance();
+    // 両センサ値取得
+    long distance1 = sensor1->getDistance();
+    long distance2 = sensor2->getDistance();
     
-    // 故障チェック
-    if (sensor->isFaulty()) {
-        led->displayFault();
-        Serial.println("Sensor Fault Detected!");
+    // 両センサ故障チェック
+    bool fault1 = sensor1->isFaulty();
+    bool fault2 = sensor2->isFaulty();
+    
+    if (fault1 && fault2) {
+        // 両方故障
+        faultCounter++;
+        if (faultCounter >= faultThreshold) {
+            led->displayFault();
+            Serial.println("FAULT: Both sensors failed!");
+            return;
+        }
+    } else {
+        faultCounter = 0;
+    }
+    
+    // 最短距離取得（片方故障時は正常な方を使用）
+    long minDistance = getMinDistance(distance1, distance2);
+    
+    if (minDistance < 0) {
+        // 有効な距離が取得できない
+        led->setWarningLevel(OFF, -1, monitoringRange);
+        led->updateBlink();
         return;
     }
     
-    // 外れ値の場合はスキップ
-    if (distance < 0) {
-        return;
-    }
+    // 警告レベル設定と表示更新
+    led->setWarningLevel(OFF, minDistance, monitoringRange);
+    led->updateBlink();
     
-    // 監視範囲外チェック
-    if (distance > monitoringRange) {
-        led->turnOff();
-        Serial.print("Distance: ");
-        Serial.print(distance);
-        Serial.println(" cm (Out of range)");
-        return;
-    }
-    
-    // 警告表示
-    led->displayWarning(distance);
-    
-    Serial.print("Distance: ");
-    Serial.print(distance);
-    Serial.print(" cm | Range: ");
+    // シリアル出力
+    Serial.print("Range: ");
     Serial.print(monitoringRange);
+    Serial.print(" cm | S1: ");
+    Serial.print(distance1 > 0 ? String(distance1) : "ERR");
+    Serial.print(" cm | S2: ");
+    Serial.print(distance2 > 0 ? String(distance2) : "ERR");
+    Serial.print(" cm | Min: ");
+    Serial.print(minDistance);
     Serial.println(" cm");
 }
 
@@ -73,14 +89,28 @@ bool CollisionWarningSystem::isRunning() {
     return systemRunning;
 }
 
-void CollisionWarningSystem::start() {
-    systemRunning = true;
-    sensor->resetErrorCount();
-    Serial.println("System Started");
+void CollisionWarningSystem::toggleSystem() {
+    systemRunning = !systemRunning;
+    
+    if (systemRunning) {
+        sensor1->resetErrorCount();
+        sensor2->resetErrorCount();
+        faultCounter = 0;
+        Serial.println(">>> System STARTED <<<");
+    } else {
+        led->turnOffAll();
+        Serial.println(">>> System STOPPED <<<");
+    }
 }
 
-void CollisionWarningSystem::stop() {
-    systemRunning = false;
-    led->turnOff();
-    Serial.println("System Stopped");
+long CollisionWarningSystem::getMinDistance(long dist1, long dist2) {
+    // 両方有効な場合は最小値
+    if (dist1 > 0 && dist2 > 0) {
+        return min(dist1, dist2);
+    }
+    // 片方のみ有効な場合はその値
+    if (dist1 > 0) return dist1;
+    if (dist2 > 0) return dist2;
+    // 両方無効
+    return -1;
 }

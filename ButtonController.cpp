@@ -2,7 +2,7 @@
 
 ButtonController::ButtonController(int pin) 
     : buttonPin(pin), lastState(HIGH), currentState(HIGH), 
-      lastDebounceTime(0), debounceDelay(50) {
+      lastDebounceTime(0), debounceDelay(50), toggleState(false) {
 }
 
 void ButtonController::begin() {
@@ -26,10 +26,21 @@ bool ButtonController::isPressed() {
     return (currentState == LOW);
 }
 
-bool ButtonController::wasPressed() {
+bool ButtonController::wasToggled() {
     static bool lastPressed = false;
     bool pressed = isPressed();
-    bool result = (pressed && !lastPressed);
+    
+    // 立ち上がりエッジ検出（ボタンが離された瞬間）
+    if (!pressed && lastPressed) {
+        toggleState = !toggleState;
+        lastPressed = pressed;
+        return true;
+    }
+    
     lastPressed = pressed;
-    return result;
+    return false;
+}
+
+bool ButtonController::getToggleState() {
+    return toggleState;
 }
