@@ -19,5 +19,5 @@ void setup() {
 
 void loop() {
     warningSystem.update();
-    delay(100);
+    delay(500);
 }

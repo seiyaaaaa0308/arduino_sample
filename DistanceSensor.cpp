@@ -16,9 +16,9 @@ void DistanceSensor::begin() {
 
 long DistanceSensor::getDistance() {
     digitalWrite(trigPin, LOW);
-    delayMicroseconds(2);
+    delayMicroseconds(200);
     digitalWrite(trigPin, HIGH);
-    delayMicroseconds(10);
+    delayMicroseconds(200);
     digitalWrite(trigPin, LOW);
     
     long duration = pulseIn(echoPin, HIGH, 30000);

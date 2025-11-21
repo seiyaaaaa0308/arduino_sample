@@ -50,11 +50,6 @@ void CollisionWarningSystem::update() {
 
     // どちらか一方でも故障なら黄色ランプ点滅
     if (fault1 || fault2) {
-        Serial.print("[DEBUG] System: Sensor fault detected (S1=");
-        Serial.print(fault1 ? "FAULTY" : "OK");
-        Serial.print(", S2=");
-        Serial.print(fault2 ? "FAULTY" : "OK");
-        Serial.println(") - calling displayFault()");
         led->displayFault();
     } else {
         led->clearFault();
