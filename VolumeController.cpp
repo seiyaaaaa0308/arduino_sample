@@ -14,19 +14,19 @@ void VolumeController::getDistanceParameters(float &slowBlink, float &fastBlink,
     // ボリューム値による絶対距離閾値（cm）- 固定値
     if (volumeValue <= 256) {
         // 0-256: 遠距離モード
-        slowBlink = 400.0;
-        fastBlink = 200.0;
-        solid = 50.0;
-    } else if (volumeValue <= 767) {
-        // 257-767: 中距離モード
-        slowBlink = 300.0;
-        fastBlink = 150.0;
-        solid = 50.0;
-    } else {
-        // 768-1024: 近距離モード
         slowBlink = 200.0;
         fastBlink = 100.0;
         solid = 50.0;
+    } else if (volumeValue <= 767) {
+        // 257-767: 中距離モード
+        slowBlink = 150.0;
+        fastBlink = 60.0;
+        solid = 25.0;
+    } else {
+        // 768-1024: 近距離モード
+        slowBlink = 100.0;
+        fastBlink = 40.0;
+        solid = 20.0;
     }
     
     // パラメータ変更時のみログ出力
