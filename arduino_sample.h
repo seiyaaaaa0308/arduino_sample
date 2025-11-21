@@ -9,8 +9,8 @@
 #include <Arduino.h>
 
 // ピン定義
-#define TRIG_PIN_1 8
-#define ECHO_PIN_1 9
+#define TRIG_PIN_1 9
+#define ECHO_PIN_1 8
 #define TRIG_PIN_2 4
 #define ECHO_PIN_2 5
 #define LED_GREEN_PIN 11    // 監視状態表示
@@ -30,6 +30,7 @@ private:
     int errorCount;
     int errorThreshold;
     bool faulty;
+    long lastDistance;  // 前回の測定距離
 
 public:
     DistanceSensor(int trig, int echo, long maxDist = 400);
@@ -57,13 +58,17 @@ private:
     WarningLevel currentLevel;
     unsigned long lastBlinkTime;
     bool blinkState;
+    bool errorMode;    // エラーモードフラグ
+    unsigned long errorStartTime;  // エラー開始時刻
+    unsigned long errorDuration;   // エラー表示時間（ミリ秒）
 
 public:
     LedController(int green, int red, int yellow);
     void begin();
     void setMonitoringActive(bool active);   // 緑LED制御
-    void setWarningLevel(WarningLevel level, long distance, long range); // 赤LED制御
-    void displayFault();                     // 黄LED点滅
+    void setWarningLevel(WarningLevel level, long distance, long range, float slowThreshold, float fastThreshold, float solidThreshold); // 赤LED制御
+    void displayFault();                     // 黄LED点灯（10秒間）
+    void clearFault();                       // エラーモード解除
     void updateBlink();                      // 点滅更新
     void turnOffAll();
 };
@@ -74,13 +79,11 @@ public:
 class VolumeController {
 private:
     int volumePin;
-    long minRange;
-    long maxRange;
 
 public:
-    VolumeController(int pin, long minR = 50, long maxR = 400);
+    VolumeController(int pin);
     void begin();
-    long getMonitoringRange();
+    void getDistanceParameters(float &slowBlink, float &fastBlink, float &solid);  // 距離パラメータ取得
 };
 
 // ========================================
@@ -114,7 +117,6 @@ private:
     VolumeController* volume;
     ButtonController* toggleButton;
     bool systemRunning;
-    long monitoringRange;
     int faultCounter;
     int faultThreshold;
 

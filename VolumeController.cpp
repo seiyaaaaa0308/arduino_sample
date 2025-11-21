@@ -1,30 +1,46 @@
 #include "arduino_sample.h"
 
-VolumeController::VolumeController(int pin, long minR, long maxR) 
-    : volumePin(pin), minRange(minR), maxRange(maxR) {
+VolumeController::VolumeController(int pin) 
+    : volumePin(pin) {
 }
 
 void VolumeController::begin() {
     pinMode(volumePin, INPUT);
 }
 
-long VolumeController::getMonitoringRange() {
+void VolumeController::getDistanceParameters(float &slowBlink, float &fastBlink, float &solid) {
     int volumeValue = analogRead(volumePin);
-    // ボリューム値(0-1023)を監視範囲(minRange-maxRange)にマッピング
-    long range = map(volumeValue, 0, 1023, minRange, maxRange);
     
-    // 範囲が大きく変化した場合のみログ出力（10cm以上の変化）
-    static long lastRange = 0;
-    if (abs(range - lastRange) >= 10) {
-        Serial.print("[DEBUG] Monitoring range adjusted: ");
-        Serial.print(lastRange);
-        Serial.print(" cm -> ");
-        Serial.print(range);
-        Serial.print(" cm (volume value=");
-        Serial.print(volumeValue);
-        Serial.println(")");
-        lastRange = range;
+    // ボリューム値による絶対距離閾値（cm）- 固定値
+    if (volumeValue <= 256) {
+        // 0-256: 遠距離モード
+        slowBlink = 400.0;
+        fastBlink = 200.0;
+        solid = 50.0;
+    } else if (volumeValue <= 767) {
+        // 257-767: 中距離モード
+        slowBlink = 300.0;
+        fastBlink = 150.0;
+        solid = 50.0;
+    } else {
+        // 768-1024: 近距離モード
+        slowBlink = 200.0;
+        fastBlink = 100.0;
+        solid = 50.0;
     }
     
-    return range;
+    // パラメータ変更時のみログ出力
+    static int lastVolume = -1;
+    if (abs(volumeValue - lastVolume) >= 50) {
+        Serial.print("[DEBUG] Distance parameters updated: volume=");
+        Serial.print(volumeValue);
+        Serial.print(", thresholds: solid<=");
+        Serial.print(solid);
+        Serial.print(" cm, fast<=");
+        Serial.print(fastBlink);
+        Serial.print(" cm, slow<=");
+        Serial.print(slowBlink);
+        Serial.println(" cm");
+        lastVolume = volumeValue;
+    }
 }

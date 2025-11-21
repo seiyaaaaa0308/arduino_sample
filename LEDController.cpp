@@ -2,7 +2,8 @@
 
 LedController::LedController(int green, int red, int yellow) 
     : greenPin(green), redPin(red), yellowPin(yellow), currentLevel(OFF),
-      lastBlinkTime(0), blinkState(false) {
+      lastBlinkTime(0), blinkState(false), errorMode(false), 
+      errorStartTime(0), errorDuration(10000) {  // 10秒間点灯
 }
 
 void LedController::begin() {
@@ -22,19 +23,21 @@ void LedController::setMonitoringActive(bool active) {
     digitalWrite(greenPin, active ? HIGH : LOW);
 }
 
-void LedController::setWarningLevel(WarningLevel level, long distance, long range) {
+void LedController::setWarningLevel(WarningLevel level, long distance, long range, float slowThreshold, float fastThreshold, float solidThreshold) {
     WarningLevel previousLevel = currentLevel;
     currentLevel = level;
     
-    // 距離に応じたレベル判定
-    if (distance < 0 || distance > range) {
+    // 距離に応じたレベル判定（絶対距離閾値使用）
+    if (distance < 0) {
         currentLevel = OFF;
-    } else if (distance <= range * 0.25) {
+    } else if (distance <= solidThreshold) {
         currentLevel = SOLID;      // 近距離: 常時点灯
-    } else if (distance <= range * 0.5) {
+    } else if (distance <= fastThreshold) {
         currentLevel = FAST_BLINK; // 中距離: 高速点滅
-    } else {
+    } else if (distance <= slowThreshold) {
         currentLevel = SLOW_BLINK; // 遠距離: 低速点滅
+    } else {
+        currentLevel = OFF;        // 範囲外
     }
     
     // レベル変化時のみログ出力
@@ -46,13 +49,37 @@ void LedController::setWarningLevel(WarningLevel level, long distance, long rang
         Serial.print(levelNames[currentLevel]);
         Serial.print(" (distance=");
         Serial.print(distance);
-        Serial.print(" cm, range=");
-        Serial.print(range);
+        Serial.print(" cm, thresholds: solid<=");
+        Serial.print(solidThreshold);
+        Serial.print(", fast<=");
+        Serial.print(fastThreshold);
+        Serial.print(", slow<=");
+        Serial.print(slowThreshold);
         Serial.println(" cm)");
     }
 }
 
 void LedController::updateBlink() {
+    // エラーモード時は黄色LED常時点灯（10秒間）
+    if (errorMode) {
+        digitalWrite(redPin, LOW);
+        unsigned long currentTime = millis();
+        
+        // 10秒経過したら自動消灯
+        if (currentTime - errorStartTime >= errorDuration) {
+            Serial.println("[DEBUG] LED: Error display timeout (10s) - Yellow LED auto-off");
+            errorMode = false;
+            digitalWrite(yellowPin, LOW);
+            return;
+        }
+        
+        // 10秒間は常時点灯
+        digitalWrite(yellowPin, HIGH);
+        return;
+    }
+    
+    // 通常の警告表示（赤LED）
+    digitalWrite(yellowPin, LOW);
     unsigned long currentTime = millis();
     unsigned long blinkInterval;
     
@@ -86,13 +113,21 @@ void LedController::updateBlink() {
 }
 
 void LedController::displayFault() {
-    // 黄色LED点滅（故障通知）
-    unsigned long currentTime = millis();
-    if (currentTime - lastBlinkTime >= 500) {
-        blinkState = !blinkState;
-        digitalWrite(yellowPin, blinkState ? HIGH : LOW);
-        lastBlinkTime = currentTime;
+    if (!errorMode) {
+        Serial.println("[DEBUG] LED: Error mode activated - Yellow LED ON for 10 seconds");
+        errorStartTime = millis();  // エラー開始時刻を記録
     }
+    errorMode = true;
+    digitalWrite(redPin, LOW);  // 赤LED消灯
+    // 黄色LED常時点灯（10秒間）はupdateBlink()で管理
+}
+
+void LedController::clearFault() {
+    if (errorMode) {
+        Serial.println("[DEBUG] LED: Error mode cleared - Yellow LED off");
+    }
+    errorMode = false;
+    digitalWrite(yellowPin, LOW);
 }
 
 void LedController::turnOffAll() {

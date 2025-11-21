@@ -4,7 +4,7 @@ CollisionWarningSystem::CollisionWarningSystem(DistanceSensor* s1, DistanceSenso
                                               LedController* l, VolumeController* v, 
                                               ButtonController* toggle) 
     : sensor1(s1), sensor2(s2), led(l), volume(v), toggleButton(toggle), 
-      systemRunning(false), monitoringRange(150), faultCounter(0), faultThreshold(5) {
+      systemRunning(false), faultCounter(0), faultThreshold(5) {
 }
 
 void CollisionWarningSystem::begin() {
@@ -40,9 +40,6 @@ void CollisionWarningSystem::update() {
     // 監視中は緑LED点灯
     led->setMonitoringActive(true);
     
-    // ボリューム値取得（監視範囲: 30-300cm）
-    monitoringRange = volume->getMonitoringRange();
-    
     // 両センサ値取得
     long distance1 = sensor1->getDistance();
     long distance2 = sensor2->getDistance();
@@ -50,12 +47,23 @@ void CollisionWarningSystem::update() {
     // 両センサ故障チェック
     bool fault1 = sensor1->isFaulty();
     bool fault2 = sensor2->isFaulty();
-    
+
+    // どちらか一方でも故障なら黄色ランプ点滅
+    if (fault1 || fault2) {
+        Serial.print("[DEBUG] System: Sensor fault detected (S1=");
+        Serial.print(fault1 ? "FAULTY" : "OK");
+        Serial.print(", S2=");
+        Serial.print(fault2 ? "FAULTY" : "OK");
+        Serial.println(") - calling displayFault()");
+        led->displayFault();
+    } else {
+        led->clearFault();
+    }
+
+    // 両方故障時のカウンタ管理（従来通り）
     if (fault1 && fault2) {
-        // 両方故障
         faultCounter++;
         if (faultCounter >= faultThreshold) {
-            led->displayFault();
             Serial.print("[ERROR] FAULT: Both sensors failed! (counter=");
             Serial.print(faultCounter);
             Serial.println(")");
@@ -67,31 +75,39 @@ void CollisionWarningSystem::update() {
         }
         faultCounter = 0;
     }
-    
+
     // 片方故障の警告
     if (fault1 && !fault2) {
         Serial.println("[WARN] Sensor1 faulty, using Sensor2 only");
     } else if (!fault1 && fault2) {
         Serial.println("[WARN] Sensor2 faulty, using Sensor1 only");
     }
-    
+
     // 最短距離取得（片方故障時は正常な方を使用）
     long minDistance = getMinDistance(distance1, distance2);
-    
+
     if (minDistance < 0) {
-        // 有効な距離が取得できない
-        led->setWarningLevel(OFF, -1, monitoringRange);
-        led->updateBlink();
+        // 有効な距離が取得できない（エラーモード）
+        led->displayFault();
+        led->updateBlink();  // 黄色LED点滅のため必須
         return;
     }
     
+    // ボリュームパラメータ取得（絶対距離閾値）
+    float slowThreshold, fastThreshold, solidThreshold;
+    volume->getDistanceParameters(slowThreshold, fastThreshold, solidThreshold);
+    
     // 警告レベル設定と表示更新
-    led->setWarningLevel(OFF, minDistance, monitoringRange);
+    led->setWarningLevel(OFF, minDistance, 0, slowThreshold, fastThreshold, solidThreshold);
     led->updateBlink();
     
     // シリアル出力（詳細版）
-    Serial.print("[DATA] Range: ");
-    Serial.print(monitoringRange);
+    Serial.print("[DATA] Thresholds: solid<=");
+    Serial.print(solidThreshold);
+    Serial.print(", fast<=");
+    Serial.print(fastThreshold);
+    Serial.print(", slow<=");
+    Serial.print(slowThreshold);
     Serial.print(" cm | S1: ");
     if (distance1 > 0) {
         Serial.print(distance1);
@@ -106,12 +122,12 @@ void CollisionWarningSystem::update() {
     } else {
         Serial.print("ERR");
     }
-    Serial.print(" | Min: ");
+    Serial.print(" cm | Min: ");
     if (minDistance > 0) {
         Serial.print(minDistance);
         Serial.print(" cm");
         // 警告範囲内かどうか
-        if (minDistance <= monitoringRange) {
+        if (minDistance <= slowThreshold) {
             Serial.print(" [WARNING]");
         } else {
             Serial.print(" [CLEAR]");

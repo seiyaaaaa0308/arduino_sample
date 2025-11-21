@@ -6,13 +6,11 @@
 class VolumeController {
 private:
     int volumePin;
-    long minRange;
-    long maxRange;
 
 public:
-    VolumeController(int pin, long minR = 50, long maxR = 400);
+    VolumeController(int pin);
     void begin();
-    long getMonitoringRange();
+    void getDistanceParameters(float &slowBlink, float &fastBlink, float &solid);
 };
 
 #endif // VOLUME_CONTROLLER_H
